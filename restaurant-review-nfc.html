@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101214">
+  <title>Оцените «Кофе Саунд»</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101214;
+      --surface: #181b1f;
+      --surface-2: #20242a;
+      --text: #f6f7f8;
+      --muted: #a6adb7;
+      --line: rgba(255,255,255,.1);
+      --accent: #ffc857;
+      --accent-strong: #f2a900;
+      --danger: #ff7a7a;
+      --success: #75dfaa;
+      --shadow: 0 24px 70px rgba(0,0,0,.32);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px 16px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(255,200,87,.12), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      width: min(100%, 520px);
+    }
+
+    .card {
+      padding: clamp(24px, 6vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(24,27,31,.92);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: grid;
+      justify-items: center;
+      gap: 13px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 84px;
+      height: 84px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,200,87,.4);
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2a2920, #17191c);
+      color: var(--accent);
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -.08em;
+      box-shadow: 0 12px 34px rgba(255,200,87,.1), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: .02em;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 380px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: clamp(27px, 7vw, 38px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    .hint {
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .rating {
+      display: flex;
+      justify-content: center;
+      gap: clamp(4px, 2vw, 12px);
+      margin: 30px 0 8px;
+    }
+
+    .star {
+      width: clamp(48px, 14vw, 62px);
+      height: clamp(52px, 15vw, 66px);
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+      color: #68707b;
+      cursor: pointer;
+      font-size: clamp(25px, 8vw, 36px);
+      line-height: 1;
+      transition: transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .star:hover, .star:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(255,200,87,.55);
+      outline: none;
+    }
+
+    .star.is-active {
+      color: var(--accent);
+      background: rgba(255,200,87,.13);
+      border-color: rgba(255,200,87,.45);
+    }
+
+    .rating-label {
+      min-height: 20px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .scenario {
+      display: none;
+      margin-top: 28px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .scenario.is-visible {
+      display: block;
+      animation: fadeIn .42s ease both;
+    }
+
+    .scenario h2 {
+      margin: 0;
+      font-size: clamp(20px, 5.5vw, 26px);
+      line-height: 1.16;
+      letter-spacing: -.025em;
+    }
+
+    .scenario p {
+      margin: 9px 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .review-options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .review-link, .submit-btn {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      color: #fff;
+      text-decoration: none;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s ease, filter .2s ease, border-color .2s ease;
+    }
+
+    .review-link:hover, .review-link:focus-visible, .submit-btn:hover, .submit-btn:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+      outline: none;
+    }
+
+    .review-link.yandex { background: linear-gradient(135deg, #e72c32, #bd171d); border-color: rgba(255,100,100,.45); }
+    .review-link.google { background: linear-gradient(135deg, #3268e8, #2450ba); border-color: rgba(100,145,255,.5); }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.15);
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .arrow { margin-left: auto; color: rgba(255,255,255,.7); font-size: 20px; }
+
+    .form-grid { display: grid; gap: 12px; }
+    label { color: var(--muted); font-size: 13px; font-weight: 650; }
+    textarea, input[type="tel"] {
+      width: 100%;
+      margin-top: 7px;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      background: #121417;
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+    textarea:focus, input[type="tel"]:focus {
+      border-color: rgba(255,200,87,.7);
+      box-shadow: 0 0 0 4px rgba(255,200,87,.1);
+    }
+
+    .submit-btn {
+      justify-content: center;
+      margin-top: 4px;
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #1b1607;
+      box-shadow: 0 10px 24px rgba(255,200,87,.15);
+    }
+
+    .success {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 15px;
+      border: 1px solid rgba(117,223,170,.35);
+      border-radius: 14px;
+      background: rgba(117,223,170,.1);
+      color: var(--success);
+      font-size: 14px;
+      line-height: 1.4;
+      animation: fadeIn .35s ease both;
+    }
+    .success.is-visible { display: block; }
+
+    .footer-note {
+      margin: 22px 0 0;
+      color: #6f7782;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    @media (min-width: 640px) {
+      body { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="card" aria-labelledby="page-title">
+      <header class="brand">
+        <div class="logo" aria-label="Логотип заведения">КС</div>
+        <p class="brand-name">Кофе Саунд</p>
+      </header>
+
+      <p class="eyebrow">Ваше мнение важно</p>
+      <h1 id="page-title">Понравилось обслуживание? Оцените нас!</h1>
+      <p class="hint">Выберите оценку — это займёт всего несколько секунд</p>
+
+      <div class="rating" role="group" aria-label="Оценка от 1 до 5 звёзд">
+        <button class="star" type="button" data-rating="1" aria-label="1 звезда">★</button>
+        <button class="star" type="button" data-rating="2" aria-label="2 звезды">★</button>
+        <button class="star" type="button" data-rating="3" aria-label="3 звезды">★</button>
+        <button class="star" type="button" data-rating="4" aria-label="4 звезды">★</button>
+        <button class="star" type="button" data-rating="5" aria-label="5 звёзд">★</button>
+      </div>
+      <p class="rating-label" id="rating-label" aria-live="polite">Нажмите на звезду</p>
+
+      <section class="scenario" id="positive-scenario" aria-labelledby="positive-title">
+        <h2 id="positive-title">Где вам удобнее оставить отзыв?</h2>
+        <p>Ваш отзыв поможет другим гостям выбрать нас.</p>
+        <div class="review-options">
+          <a class="review-link yandex" href="https://share.google/4RMhiNkIyVAHVjBFn" target="_blank" rel="noopener noreferrer" aria-label="Оставить отзыв в Яндекс Картах">
+            <span class="brand-icon">Я</span>
+            <span>Яндекс Карты</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="review-link google" href="https://search.google.com/local/writereview?placeid=ChIJVeWo6j7R2EYRsuGei7FdKwM&hl=ru" target="_blank" rel="noopener noreferrer" aria-label="Оставить отзыв в Google Картах">
+            <span class="brand-icon">G</span>
+            <span>Google Карты</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="scenario" id="negative-scenario" aria-labelledby="negative-title">
+        <h2 id="negative-title">Нам очень жаль!</h2>
+        <p>Пожалуйста, помогите нам стать лучше — расскажите, что произошло.</p>
+        <form id="feedback-form" class="form-grid">
+          <label>
+            Ваша жалоба или комментарий
+            <textarea name="complaint" placeholder="Напишите, что мы можем улучшить..." required></textarea>
+          </label>
+          <label>
+            Номер телефона
+            <input name="phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
+          </label>
+          <button class="submit-btn" type="submit">Отправить директору</button>
+        </form>
+        <div class="success" id="success-message" role="status">Спасибо! Ваше обращение передано руководству</div>
+      </section>
+
+      <p class="footer-note">Сканируйте NFC-метку «Кофе Саунд», чтобы поделиться впечатлением</p>
+    </section>
+  </main>
+
+  <script>
+    const stars = document.querySelectorAll('.star');
+    const ratingLabel = document.querySelector('#rating-label');
+    const positiveScenario = document.querySelector('#positive-scenario');
+    const negativeScenario = document.querySelector('#negative-scenario');
+    const feedbackForm = document.querySelector('#feedback-form');
+    const successMessage = document.querySelector('#success-message');
+
+    const labels = {
+      1: 'Очень плохо',
+      2: 'Плохо',
+      3: 'Нужно улучшить',
+      4: 'Хорошо',
+      5: 'Отлично!'
+    };
+
+    function showScenario(element) {
+      element.classList.remove('is-visible');
+      // Перезапускаем анимацию при повторном выборе оценки.
+      void element.offsetWidth;
+      element.classList.add('is-visible');
+    }
+
+    stars.forEach((star) => {
+      star.addEventListener('click', () => {
+        const rating = Number(star.dataset.rating);
+
+        stars.forEach((item) => {
+          item.classList.toggle('is-active', Number(item.dataset.rating) <= rating);
+        });
+
+        ratingLabel.textContent = `${rating} из 5 — ${labels[rating]}`;
+        successMessage.classList.remove('is-visible');
+
+        if (rating >= 4) {
+          negativeScenario.classList.remove('is-visible');
+          showScenario(positiveScenario);
+        } else {
+          positiveScenario.classList.remove('is-visible');
+          showScenario(negativeScenario);
+        }
+      });
+    });
+
+    feedbackForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      successMessage.classList.add('is-visible');
+      feedbackForm.reset();
+    });
+  </script>
+</body>
+</html>
